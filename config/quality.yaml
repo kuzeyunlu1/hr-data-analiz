@@ -1,0 +1,24 @@
+# Response-quality flags — docs/04-data-quality.md#quality-flags-summary
+# Flags are reported and used for sensitivity analysis; they never auto-correct or delete data.
+
+inconsistency:
+  # |pomp(target) - mean pomp(comparison items)| >= gap_pomp  -> qflag_inconsistent
+  target_item: q18j_recommend_employer
+  comparison_pattern: '^q18[a-i]_'
+  min_comparison_items: 5
+  gap_pomp: 50
+
+straightline:
+  # within-grid identical codes over >= min_items substantive answers -> qflag_straightline_<grid>
+  min_items: 10
+  grids:
+    q16: '^q16_imp_'
+    q17: '^q17_sat_'
+    q18: '^q18[a-j]_'
+
+# share of closed core items answered (status != EMPTY) below this -> qflag_low_completion
+min_core_completion: 0.5
+
+# a submission repeating an EARLIER one (timestamp ignored) -> qflag_duplicate,
+# but only if it has at least this many non-empty cells (sparse answers coincide legitimately)
+duplicate_min_answered_cells: 10

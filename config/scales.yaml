@@ -1,0 +1,180 @@
+# Scale catalogue — docs/05-standardization.md#scale-catalogue
+#
+# Keys are the FULL bilingual label exactly as exported (whitespace is normalized before lookup).
+#   labels           observed in a real export — trusted
+#   expected_labels  NOT yet observed; wording guessed from the scale pattern. They map, but every
+#                    use is reported as a warning until confirmed against the form editor
+#                    (then move the line to `labels`).
+#   na_labels        "can't judge" options -> status NO_BASIS, no code
+#   values           optional code -> metric value (probability, Vroom valence)
+# Any label not listed here stops the pipeline (the form probably changed).
+# Polarity is defined per column in survey_schema.yaml, not here.
+
+QUALITY5:
+  kind: ordinal
+  min: 1
+  max: 5
+  labels:
+    "Neither poor nor good / Weder schlecht noch gut": 3
+    "Good / Gut": 4
+    "Very good / Sehr gut": 5
+  expected_labels:
+    "Very poor / Sehr schlecht": 1
+    "Poor / Schlecht": 2
+  na_labels:
+    - "Not enough experience to judge / Nicht genügend Erfahrung, um dies zu beurteilen"
+
+SAT5:
+  kind: ordinal
+  min: 1
+  max: 5
+  labels:
+    "Very dissatisfied / Sehr unzufrieden": 1
+    "Dissatisfied / Unzufrieden": 2
+    "Neither satisfied nor dissatisfied / Weder zufrieden noch unzufrieden": 3
+    "Satisfied / Zufrieden": 4
+    "Very satisfied / Sehr zufrieden": 5
+
+CLARITY5:
+  kind: ordinal
+  min: 1
+  max: 5
+  labels:
+    "Very unclear / Sehr unklar": 1
+    "Clear / Klar": 4
+    "Very clear / Sehr klar": 5
+  expected_labels:
+    "Unclear / Unklar": 2
+    "Neither clear nor unclear / Weder klar noch unklar": 3
+
+EASE5:
+  kind: ordinal
+  min: 1
+  max: 5
+  labels:
+    "Easy / Einfach": 4
+    "Very easy / Sehr einfach": 5
+  expected_labels:
+    "Very difficult / Sehr schwierig": 1
+    "Difficult / Schwierig": 2
+    "Neither easy nor difficult / Weder einfach noch schwierig": 3
+
+AGREE5_LABELED:
+  kind: ordinal
+  min: 1
+  max: 5
+  labels:
+    "Strongly disagree / Stimme überhaupt nicht zu": 1
+    "Neither agree nor disagree / Stimme weder zu noch nicht zu": 3
+    "Agree / Stimme zu": 4
+    "Strongly agree / Stimme voll und ganz zu": 5
+  expected_labels:
+    "Disagree / Stimme nicht zu": 2
+  na_labels:
+    - "Unable to judge / Kann ich nicht beurteilen"
+
+# Exported as bare digits. ASSUMPTION (open question #3): 1 = strongly disagree, 5 = strongly agree.
+AGREE5_NUMERIC:
+  kind: numeric
+  min: 1
+  max: 5
+
+IMPORTANCE5:
+  kind: ordinal
+  min: 1
+  max: 5
+  labels:
+    "Moderately important / Mittelmäßig wichtig": 3
+    "Very important / Sehr wichtig": 4
+    "Extremely important / Äußerst wichtig": 5
+  expected_labels:
+    "Not at all important / Überhaupt nicht wichtig": 1
+    "Slightly important / Etwas wichtig": 2
+
+PROB5:
+  kind: ordinal
+  min: 1
+  max: 5
+  labels:
+    "25% — Unlikely / Unwahrscheinlich": 2
+    "50% — Equally likely and unlikely / Ebenso wahrscheinlich wie unwahrscheinlich": 3
+    "75% — Likely / Wahrscheinlich": 4
+  expected_labels:
+    "0% — Very unlikely / Sehr unwahrscheinlich": 1
+    "100% — Very likely / Sehr wahrscheinlich": 5
+  values: {1: 0.0, 2: 0.25, 3: 0.5, 4: 0.75, 5: 1.0}
+
+# Vroom valence on [-1, +1]
+DESIRABILITY5:
+  kind: ordinal
+  min: 1
+  max: 5
+  labels:
+    "Neither desirable nor undesirable / Weder erwünscht noch unerwünscht": 3
+    "Very desirable / Sehr erwünscht": 5
+  expected_labels:
+    "Very undesirable / Sehr unerwünscht": 1
+    "Undesirable / Unerwünscht": 2
+    "Desirable / Erwünscht": 4
+  values: {1: -1.0, 2: -0.5, 3: 0.0, 4: 0.5, 5: 1.0}
+
+# ASSUMPTION (open question #3): anchors of the bare-number scales are not exported.
+NUM0_10:
+  kind: numeric
+  min: 0
+  max: 10
+
+NUM1_5:
+  kind: numeric
+  min: 1
+  max: 5
+
+EFFECTIVE5:
+  kind: ordinal
+  min: 1
+  max: 5
+  labels:
+    "Very effectively / Sehr effektiv": 5
+  expected_labels:
+    "Not at all effectively / Überhaupt nicht effektiv": 1
+    "Slightly effectively / Wenig effektiv": 2
+    "Moderately effectively / Mäßig effektiv": 3
+    "Effectively / Effektiv": 4
+
+COMPLETE5:
+  kind: ordinal
+  min: 1
+  max: 5
+  labels:
+    "Very complete / Sehr vollständig": 5
+  expected_labels:
+    "Very incomplete / Sehr unvollständig": 1
+    "Incomplete / Unvollständig": 2
+    "Partly complete / Teilweise vollständig": 3
+    "Complete / Vollständig": 4
+
+# Higher = MORE hindrance (polarity "-" on the column)
+EXTENT5:
+  kind: ordinal
+  min: 1
+  max: 5
+  labels:
+    "Moderately / Mäßig": 3
+  expected_labels:
+    "Not at all / Überhaupt nicht": 1
+    "Slightly / Geringfügig": 2
+    "Considerably / Erheblich": 4
+    "Extremely / Sehr stark": 5
+
+# Higher = MORE difficult (polarity "-" on the column)
+DIFFICULTY5:
+  kind: ordinal
+  min: 1
+  max: 5
+  labels:
+    "Not difficult at all / Überhaupt nicht schwierig": 1
+  expected_labels:
+    "Slightly difficult / Etwas schwierig": 2
+    "Moderately difficult / Mäßig schwierig": 3
+    "Very difficult / Sehr schwierig": 4
+    "Extremely difficult / Äußerst schwierig": 5

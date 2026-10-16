@@ -1,0 +1,67 @@
+# Local redaction BEFORE anything is sent to the LLM — docs/08-privacy-and-ethics.md
+# Order: regex patterns -> spaCy NER -> allowlist restores. Over-redaction is preferred to leaks;
+# the analyst reviews every row in the send manifest anyway.
+
+spacy_models:
+  en: en_core_web_md
+  de: de_core_news_md
+
+# Below this lingua confidence the text is treated as mixed and BOTH NER models run.
+min_language_confidence: 0.7
+
+# spaCy entity label -> placeholder. Labels not listed (DATE, MONEY, MISC, PRODUCT…) are kept.
+entities:
+  PERSON: "[PERSON]"
+  PER: "[PERSON]"
+  ORG: "[ORG]"
+  GPE: "[LOCATION]"
+  LOC: "[LOCATION]"
+
+# Applied first, in order. min_digits filters out dates and small numbers for the phone rule.
+patterns:
+  - name: email
+    regex: '[\w.+-]+@[\w-]+(?:\.[\w-]+)+'
+    placeholder: "[EMAIL]"
+  - name: url
+    regex: '(?:https?://|www\.)\S+'
+    placeholder: "[URL]"
+  - name: iban
+    regex: '\b[A-Z]{2}\d{2}(?: ?[A-Z0-9]{4}){3,7}(?: ?[A-Z0-9]{1,3})?\b'
+    placeholder: "[IBAN]"
+  - name: phone
+    # boundaries: not inside a word or a decimal number, but a sentence-final '.' is fine
+    regex: '(?<!\w)(?<!\d\.)(?:\+|00)?\d[\d ()/.-]{5,}\d(?!\w|\.\d)'
+    placeholder: "[PHONE]"
+    min_digits: 8
+    exclude_regex: '\d{4}[/.-]\d{1,2}[/.-]\d{1,2}|\d{1,2}[./-]\d{1,2}[./-]\d{2,4}'   # dates
+  - name: titled_name
+    # stacked titles ("Frau Dr. Müller"), any case, any letter ("herr šimić")
+    regex: '\b(?:(?i:herr|frau|hr\.|fr\.|mr\.?|mrs\.?|ms\.?|dr\.|prof\.)\s+)+[^\W\d_][\w-]*'
+    placeholder: "[PERSON]"
+
+# Entities whose exact text (case-insensitive) is in this list are NOT redacted: vendor names,
+# technologies and survey vocabulary that NER often mistakes for organisations or people.
+allowlist:
+  - IT
+  - IT Security
+  - IT-Sicherheit
+  - Managed Services
+  - CRM
+  - ERP
+  - VPN
+  - Microsoft
+  - Microsoft 365
+  - Azure
+  - AWS
+  - Google
+  - Cisco
+  - VMware
+  - Fortinet
+  - Sophos
+  - Veeam
+  - Windows
+  - Linux
+  - Sales
+  - Vertrieb
+  - Sachbearbeitung
+  - Geschäftsleitung

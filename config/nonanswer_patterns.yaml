@@ -1,0 +1,51 @@
+# Response-status patterns for free text — docs/05-standardization.md#response-status-taxonomy
+#
+# Matching runs on normalized, lower-cased text (NFC, apostrophes unified to ', whitespace collapsed).
+# Regexes are Python `re` syntax, searched anywhere in the text (use ^...$ to anchor).
+
+# Whole-answer placeholders -> PLACEHOLDER
+placeholder:
+  - '^[\s\-–—_.,;:!?/\\*x]*$'
+  - '^(n/?a|keine angabe|k\.? ?a\.?)\.?$'
+
+# Checked in this order; the first match wins.
+patterns:
+  NO_BASIS:
+    - "(i )?(do not|don't|dont) have (any |enough )?(direct )?customer contact"
+    - '\bno (direct )?customer contact'
+    - 'not in a position to (answer|assess|judge|say)'
+    - '(not enough|insufficient) (experience|information|insight) to (judge|answer|assess)'
+    - 'unable to (judge|assess|answer)'
+    - '\bkein(en)? (direkten )?kundenkontakt'
+    - 'kann ich nicht beurteilen'
+    - 'nicht genügend (erfahrung|informationen|einblick)'
+  NOTHING_TO_ADD:
+    # Whole-answer only: "I don't know who is responsible" or "Ich weiß nicht, wer …" are real answers.
+    - "^(i )?(do not|don't|dont) know\\W*$"
+    - '^no idea\W*$'
+    - '^(ich )?wei(ß|ss) (ich )?(es )?nicht\W*$'
+    - '^keine ahnung\W*$'
+    # "nothing" alone — same status in both languages (it was a PLACEHOLDER for German only)
+    - '^(nothing|none|nil|nichts|gar nichts)\W*$'
+    # "anyone who helps me" must not match "any"
+    - "(couldn't|could not|can't|cannot) think of (one|any|anything)\\b"
+    - 'nothing comes to mind'
+    - 'mir fällt nichts ein'
+  NO_ISSUE:
+    - '\b(there is |there are )?no obstacles?\b'
+    - 'no changes? (is |are )?(necessary|needed|required)'
+    - '(the )?responsibilities are clear\b'   # not "clearly not defined"
+    - 'nothing to (change|improve)'
+    - '\bkein(e)? (hindernis(se)?|änderung|veränderung)\b'
+    - '\b(änderung|veränderung) (ist )?nicht (nötig|notwendig|erforderlich)'
+
+# What is left after removing the matched phrase decides whether the answer is still a
+# non-answer or carries real content. Used by text_status.resolve_residual().
+residual:
+  max_words: 15
+  # single words only; matched as whole words
+  contrast_markers: [but, however, although, though, except, apart, besides, yet,
+                     aber, jedoch, allerdings, außer, ausser, abgesehen, ausgenommen, trotzdem]
+
+# For these questions "nothing / don't know" is itself a signal (no pride, no enjoyment).
+meaningful_nothing_vars: [q14_pride_txt, q15_enjoy_txt]

@@ -1,0 +1,29 @@
+# LLM-assisted text coding — docs/07-text-codebook.md#llm-assisted-coding-protocol
+# Approved 2026-10-15 for REDACTED text only (DECISIONS D-007). Only rows marked approved=yes in
+# the send manifest ever leave the machine. Credentials: ANTHROPIC_API_KEY in .env (never commit).
+
+model: claude-haiku-5-5   # chosen by the analyst 2026-10-15 (DECISIONS D-018)
+effort: medium            # thinking depth; Opus 5.5 thinking is always on, effort is the control
+max_tokens: 16000
+
+# Server-side refusal fallback. Not available for Claude Haiku 5.5 (a declined request would stay
+# declined), so it is off; a refusal is recorded as an error for that answer and can be re-run.
+# For Opus/Sonnet models set: fallbacks: default + fallback_beta: server-side-fallback-2026-07-01
+fallbacks: null
+fallback_beta: null
+
+max_workers: 4            # parallel requests; one request per answer (never a whole respondent)
+
+# Which text statuses are sent for coding. NO_BASIS / PLACEHOLDER / EMPTY never are.
+send_statuses: [SUBSTANTIVE, NO_ISSUE]
+
+# Coarse respondent context sent with each answer to help sarcasm detection (docs/07).
+engagement_band:
+  items: [q18j_recommend_employer, q22_motivation_2w]
+  favorable_min_pomp: 70
+  unfavorable_max_pomp: 40
+
+# Coded locally without any API call: var_id -> {status: theme}
+deterministic_codes:
+  q14_pride_txt: {NOTHING_TO_ADD: MEAN.NOTHING_ENJOYABLE}
+  q15_enjoy_txt: {NOTHING_TO_ADD: MEAN.NOTHING_ENJOYABLE}

@@ -1,0 +1,21 @@
+# Respondent data — never commit (see docs/08-privacy-and-ethics.md)
+data/*
+!data/README.md
+reports/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+build/
+
+# Secrets & local
+.env
+.env.*
+.DS_Store
+.coverage
+htmlcov/

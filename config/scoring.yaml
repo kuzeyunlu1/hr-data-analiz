@@ -1,0 +1,11 @@
+# Favorability buckets on the polarity-corrected 0–100 pomp score — docs/05-standardization.md#scoring
+# 5-point scales: codes 4–5 -> pomp 75/100 (favorable), 1–2 -> 0/25 (unfavorable).
+
+favorability_default:
+  favorable_min_pomp: 75
+  unfavorable_max_pomp: 25
+
+favorability_overrides:
+  NUM0_10:              # 7–10 favorable, 0–4 unfavorable
+    favorable_min_pomp: 70
+    unfavorable_max_pomp: 40

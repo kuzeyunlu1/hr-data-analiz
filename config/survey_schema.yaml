@@ -1,0 +1,111 @@
+# Positional column map of the Google Forms export.
+# Mirrors docs/03-data-dictionary.md — tests/test_config.py fails if the two drift apart.
+# header_hash = first 12 hex chars of sha256(whitespace-normalized header cell);
+# a changed hash means the question text changed -> review before re-running.
+
+survey_id: employee_experience_motivation_2026
+expected_columns: 86
+
+timestamp:
+  column_idx: 0
+  # Google Forms export in Turkish locale: 2026/10/15 6:43:35 ÖS GMT+3
+  regex: '^(?P<date>\d{4}/\d{2}/\d{2}) (?P<time>\d{1,2}:\d{2}:\d{2}) (?P<ampm>\S+) GMT(?P<offset>[+-]\d{1,2}(?::?\d{2})?)$'
+  date_format: '%Y/%m/%d'
+  am_tokens: [ÖÖ, AM]
+  pm_tokens: [ÖS, PM]
+
+# Block code -> branch name. Blocks not listed here are answered by everyone.
+branches:
+  T: technical
+  S: sales
+  O: back_office
+
+core_blocks: [A, B, C, D, E, F, G, H, I]
+
+columns:
+  - {idx: 0, var_id: "submitted_at_raw", q_no: "-", block: "META", type: "timestamp", header_hash: "443daf4dc239"}
+  - {idx: 1, var_id: "q01_customer_value_txt", q_no: "1", block: "A", type: "text", header_hash: "a375351cd135"}
+  - {idx: 2, var_id: "q02_customer_problem_txt", q_no: "2", block: "A", type: "text", header_hash: "861b750e5321"}
+  - {idx: 3, var_id: "q03_business_opportunity_txt", q_no: "3", block: "A", type: "text", header_hash: "80120a96644e"}
+  - {idx: 4, var_id: "q04_coop_within_dept", q_no: "4", block: "B", type: "scale", scale_id: "QUALITY5", polarity: "+", header_hash: "a1e66a25971e"}
+  - {idx: 5, var_id: "q04_1_coop_within_reason_txt", q_no: "4.1", block: "B", type: "text", header_hash: "46cfa7470a4d"}
+  - {idx: 6, var_id: "q05_coop_cross_dept", q_no: "5", block: "B", type: "scale", scale_id: "QUALITY5", polarity: "+", header_hash: "ebdc42f9772a"}
+  - {idx: 7, var_id: "q05_1_coop_cross_reason_txt", q_no: "5.1", block: "B", type: "text", header_hash: "c583f1a42471"}
+  - {idx: 8, var_id: "q06_coop_change_txt", q_no: "6", block: "B", type: "text", header_hash: "8ebc38900279"}
+  - {idx: 9, var_id: "q07_info_access_sat", q_no: "7", block: "C", type: "scale", scale_id: "SAT5", polarity: "+", header_hash: "d9555981e9cb"}
+  - {idx: 10, var_id: "q08_info_access_change_txt", q_no: "8", block: "C", type: "text", header_hash: "e9aac07cd71d"}
+  - {idx: 11, var_id: "q09_role_clarity_own", q_no: "9", block: "C", type: "scale", scale_id: "CLARITY5", polarity: "+", header_hash: "d180c7cee5ef"}
+  - {idx: 12, var_id: "q10_role_clarity_others", q_no: "10", block: "C", type: "scale", scale_id: "CLARITY5", polarity: "+", header_hash: "bdc822682ac2"}
+  - {idx: 13, var_id: "q10_1_role_unclear_txt", q_no: "10.1", block: "C", type: "text", header_hash: "fccbde7019a8"}
+  - {idx: 14, var_id: "q11_reachability", q_no: "11", block: "C", type: "scale", scale_id: "EASE5", polarity: "+", header_hash: "4317efafaaf6"}
+  - {idx: 15, var_id: "q12_obstacles_txt", q_no: "12", block: "C", type: "text", header_hash: "f8b58eb53349"}
+  - {idx: 16, var_id: "q13a_info_clear", q_no: "13a", block: "C", type: "scale", scale_id: "AGREE5_LABELED", polarity: "+", header_hash: "a54844e9ef97"}
+  - {idx: 17, var_id: "q13b_change_informed_timely", q_no: "13b", block: "C", type: "scale", scale_id: "AGREE5_LABELED", polarity: "+", header_hash: "a2b88db644f9"}
+  - {idx: 18, var_id: "q14_pride_txt", q_no: "14", block: "D", type: "text", header_hash: "620e4d0c1ad3"}
+  - {idx: 19, var_id: "q15_enjoy_txt", q_no: "15", block: "D", type: "text", header_hash: "16db196fb6e6"}
+  - {idx: 20, var_id: "q16_imp_pay", q_no: "16", block: "E", type: "scale", scale_id: "IMPORTANCE5", polarity: "+", header_hash: "da543bd62693"}
+  - {idx: 21, var_id: "q16_imp_recognition", q_no: "16", block: "E", type: "scale", scale_id: "IMPORTANCE5", polarity: "+", header_hash: "e302b0797558"}
+  - {idx: 22, var_id: "q16_imp_job_security", q_no: "16", block: "E", type: "scale", scale_id: "IMPORTANCE5", polarity: "+", header_hash: "23a02c91ef90"}
+  - {idx: 23, var_id: "q16_imp_rel_colleagues", q_no: "16", block: "E", type: "scale", scale_id: "IMPORTANCE5", polarity: "+", header_hash: "90570404e5fe"}
+  - {idx: 24, var_id: "q16_imp_rel_supervisor", q_no: "16", block: "E", type: "scale", scale_id: "IMPORTANCE5", polarity: "+", header_hash: "7cf3c878b4d4"}
+  - {idx: 25, var_id: "q16_imp_workload", q_no: "16", block: "E", type: "scale", scale_id: "IMPORTANCE5", polarity: "+", header_hash: "f65981467573"}
+  - {idx: 26, var_id: "q16_imp_work_life_balance", q_no: "16", block: "E", type: "scale", scale_id: "IMPORTANCE5", polarity: "+", header_hash: "240f6d1e25fa"}
+  - {idx: 27, var_id: "q16_imp_autonomy", q_no: "16", block: "E", type: "scale", scale_id: "IMPORTANCE5", polarity: "+", header_hash: "45ae24dbe2c3"}
+  - {idx: 28, var_id: "q16_imp_development", q_no: "16", block: "E", type: "scale", scale_id: "IMPORTANCE5", polarity: "+", header_hash: "c3dabeb649b1"}
+  - {idx: 29, var_id: "q16_imp_interesting_tasks", q_no: "16", block: "E", type: "scale", scale_id: "IMPORTANCE5", polarity: "+", header_hash: "7e6fc865144a"}
+  - {idx: 30, var_id: "q16_imp_meaningful_work", q_no: "16", block: "E", type: "scale", scale_id: "IMPORTANCE5", polarity: "+", header_hash: "a5a0c43aa7ae"}
+  - {idx: 31, var_id: "q16_imp_info_access", q_no: "16", block: "E", type: "scale", scale_id: "IMPORTANCE5", polarity: "+", header_hash: "323d741207cb"}
+  - {idx: 32, var_id: "q16_imp_idea_contribution", q_no: "16", block: "E", type: "scale", scale_id: "IMPORTANCE5", polarity: "+", header_hash: "806bf2327ba7"}
+  - {idx: 33, var_id: "q16_imp_tools_resources", q_no: "16", block: "E", type: "scale", scale_id: "IMPORTANCE5", polarity: "+", header_hash: "e9d8d53c3928"}
+  - {idx: 34, var_id: "q17_sat_pay", q_no: "17", block: "F", type: "scale", scale_id: "SAT5", polarity: "+", header_hash: "96706ba2fa85"}
+  - {idx: 35, var_id: "q17_sat_recognition", q_no: "17", block: "F", type: "scale", scale_id: "SAT5", polarity: "+", header_hash: "aa68ab645c50"}
+  - {idx: 36, var_id: "q17_sat_job_security", q_no: "17", block: "F", type: "scale", scale_id: "SAT5", polarity: "+", header_hash: "cde5ac557d31"}
+  - {idx: 37, var_id: "q17_sat_rel_colleagues", q_no: "17", block: "F", type: "scale", scale_id: "SAT5", polarity: "+", header_hash: "8f94f0a9df68"}
+  - {idx: 38, var_id: "q17_sat_rel_supervisor", q_no: "17", block: "F", type: "scale", scale_id: "SAT5", polarity: "+", header_hash: "aff73f57a27e"}
+  - {idx: 39, var_id: "q17_sat_workload", q_no: "17", block: "F", type: "scale", scale_id: "SAT5", polarity: "+", header_hash: "821ce1f570f5"}
+  - {idx: 40, var_id: "q17_sat_work_life_balance", q_no: "17", block: "F", type: "scale", scale_id: "SAT5", polarity: "+", header_hash: "1e09dd186eea"}
+  - {idx: 41, var_id: "q17_sat_autonomy", q_no: "17", block: "F", type: "scale", scale_id: "SAT5", polarity: "+", header_hash: "374a702e6c5a"}
+  - {idx: 42, var_id: "q17_sat_development", q_no: "17", block: "F", type: "scale", scale_id: "SAT5", polarity: "+", header_hash: "26abd95125c0"}
+  - {idx: 43, var_id: "q17_sat_interesting_tasks", q_no: "17", block: "F", type: "scale", scale_id: "SAT5", polarity: "+", header_hash: "7c06342a5ef2"}
+  - {idx: 44, var_id: "q17_sat_meaningful_work", q_no: "17", block: "F", type: "scale", scale_id: "SAT5", polarity: "+", header_hash: "cd4bb97b3d75"}
+  - {idx: 45, var_id: "q17_sat_info_access", q_no: "17", block: "F", type: "scale", scale_id: "SAT5", polarity: "+", header_hash: "560b336a4d9d"}
+  - {idx: 46, var_id: "q17_sat_idea_contribution", q_no: "17", block: "F", type: "scale", scale_id: "SAT5", polarity: "+", header_hash: "af052a281365"}
+  - {idx: 47, var_id: "q17_sat_tools_resources", q_no: "17", block: "F", type: "scale", scale_id: "SAT5", polarity: "+", header_hash: "bc2fd08e0086"}
+  - {idx: 48, var_id: "q18a_disagreement_constructive", q_no: "18a", block: "G", type: "scale", scale_id: "AGREE5_NUMERIC", polarity: "+", header_hash: "1042f6b5bbc8"}
+  - {idx: 49, var_id: "q18b_effort_appreciated", q_no: "18b", block: "G", type: "scale", scale_id: "AGREE5_NUMERIC", polarity: "+", header_hash: "2339c8180c84"}
+  - {idx: 50, var_id: "q18c_recognition_timely", q_no: "18c", block: "G", type: "scale", scale_id: "AGREE5_NUMERIC", polarity: "+", header_hash: "a17a77c3c033"}
+  - {idx: 51, var_id: "q18d_recognition_fair", q_no: "18d", block: "G", type: "scale", scale_id: "AGREE5_NUMERIC", polarity: "+", header_hash: "e36f5b1945ff"}
+  - {idx: 52, var_id: "q18e_reward_criteria_clear", q_no: "18e", block: "G", type: "scale", scale_id: "AGREE5_NUMERIC", polarity: "+", header_hash: "e07c22aa8de8"}
+  - {idx: 53, var_id: "q18f_supported_by_leadership", q_no: "18f", block: "G", type: "scale", scale_id: "AGREE5_NUMERIC", polarity: "+", header_hash: "5a2a3b538422"}
+  - {idx: 54, var_id: "q18g_priorities_clear", q_no: "18g", block: "G", type: "scale", scale_id: "AGREE5_NUMERIC", polarity: "+", header_hash: "efea91d31f9c"}
+  - {idx: 55, var_id: "q18h_time_sufficient", q_no: "18h", block: "G", type: "scale", scale_id: "AGREE5_NUMERIC", polarity: "+", header_hash: "670a982d8762"}
+  - {idx: 56, var_id: "q18i_voice_safety", q_no: "18i", block: "G", type: "scale", scale_id: "AGREE5_NUMERIC", polarity: "+", header_hash: "5473086cfaf9"}
+  - {idx: 57, var_id: "q18j_recommend_employer", q_no: "18j", block: "G", type: "scale", scale_id: "AGREE5_NUMERIC", polarity: "+", header_hash: "8dff8e3da45e"}
+  - {idx: 58, var_id: "q18_1_top_motivator_txt", q_no: "18.1", block: "G", type: "text", header_hash: "408be908d313"}
+  - {idx: 59, var_id: "q19_expectancy", q_no: "19", block: "H", type: "scale", scale_id: "PROB5", polarity: "+", header_hash: "e6931449f6f4"}
+  - {idx: 60, var_id: "q20_instrumentality", q_no: "20", block: "H", type: "scale", scale_id: "PROB5", polarity: "+", header_hash: "90322872bbd6"}
+  - {idx: 61, var_id: "q21_valence", q_no: "21", block: "H", type: "scale", scale_id: "DESIRABILITY5", polarity: "+", header_hash: "5b094f2a2193"}
+  - {idx: 62, var_id: "q22_motivation_2w", q_no: "22", block: "H", type: "numeric", scale_id: "NUM0_10", polarity: "+", header_hash: "4f9bede7df1b"}
+  - {idx: 63, var_id: "q23_company_support", q_no: "23", block: "H", type: "numeric", scale_id: "NUM1_5", polarity: "+", header_hash: "f638ed6e7e13"}
+  - {idx: 64, var_id: "q24_top_suggestion_txt", q_no: "24", block: "I", type: "text", header_hash: "4e222f40fe1d"}
+  - {idx: 65, var_id: "tec1_customer_requests_txt", q_no: "T1", block: "T", type: "text", header_hash: "96e2a1373f0e"}
+  - {idx: 66, var_id: "tec2_needs_to_sales_eff", q_no: "T2", block: "T", type: "scale", scale_id: "EFFECTIVE5", polarity: "+", header_hash: "3c55207d6034"}
+  - {idx: 67, var_id: "tec3_needs_to_sales_improve_txt", q_no: "T3", block: "T", type: "text", header_hash: "251292d6e7a4"}
+  - {idx: 68, var_id: "tec4_handover_completeness", q_no: "T4", block: "T", type: "scale", scale_id: "COMPLETE5", polarity: "+", header_hash: "20fc2b94a98a"}
+  - {idx: 69, var_id: "tec5_handover_missing_info_txt", q_no: "T5", block: "T", type: "text", header_hash: "15b12d5365ab"}
+  - {idx: 70, var_id: "tec6_avoidable_work_txt", q_no: "T6", block: "T", type: "text", header_hash: "a46006b32465"}
+  - {idx: 71, var_id: "tec7_single_change_txt", q_no: "T7", block: "T", type: "text", header_hash: "8f0fb06e2735"}
+  - {idx: 72, var_id: "sal1_growth_segment_txt", q_no: "S1", block: "S", type: "text", header_hash: "eb4c8e712807"}
+  - {idx: 73, var_id: "sal2_high_value_service_txt", q_no: "S2", block: "S", type: "text", header_hash: "2dbd32927545"}
+  - {idx: 74, var_id: "sal3_internal_hindrance", q_no: "S3", block: "S", type: "scale", scale_id: "EXTENT5", polarity: "-", header_hash: "2f68bbe02ece"}
+  - {idx: 75, var_id: "sal4_main_obstacle_txt", q_no: "S4", block: "S", type: "text", header_hash: "c2e918574a64"}
+  - {idx: 76, var_id: "sal5_value_convince_difficulty", q_no: "S5", block: "S", type: "scale", scale_id: "DIFFICULTY5", polarity: "-", header_hash: "cb205ca2540c"}
+  - {idx: 77, var_id: "sal6_difficulty_reason_txt", q_no: "S6", block: "S", type: "text", header_hash: "92f86c074170"}
+  - {idx: 78, var_id: "sal7_single_change_txt", q_no: "S7", block: "S", type: "text", header_hash: "08998ee2c5f1"}
+  - {idx: 79, var_id: "bo1_delay_step_txt", q_no: "O1", block: "O", type: "text", header_hash: "cc3619b8203f"}
+  - {idx: 80, var_id: "bo2_info_completeness", q_no: "O2", block: "O", type: "scale", scale_id: "COMPLETE5", polarity: "+", header_hash: "84c9144f7ae1"}
+  - {idx: 81, var_id: "bo3_missing_info_txt", q_no: "O3", block: "O", type: "text", header_hash: "15b12d5365ab"}
+  - {idx: 82, var_id: "bo4_handover_eff", q_no: "O4", block: "O", type: "scale", scale_id: "EFFECTIVE5", polarity: "+", header_hash: "5239b0b8c463"}
+  - {idx: 83, var_id: "bo5_handover_improve_txt", q_no: "O5", block: "O", type: "text", header_hash: "46c24b8d69a9"}
+  - {idx: 84, var_id: "bo6_recurring_enquiries_txt", q_no: "O6", block: "O", type: "text", header_hash: "ddc101f1000a"}
+  - {idx: 85, var_id: "bo7_single_change_txt", q_no: "O7", block: "O", type: "text", header_hash: "5f15396e8109"}
